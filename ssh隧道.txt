@@ -1,0 +1,5 @@
+ssh -N -f -L 2121:120.78.214.165:80 root@yxshyw.com
+通过root@yxshyw.com转发本地2121端口到120.78.214.165:80
+
+ssh -N -f -R 2121:127.0.0.1:22 root@yxshyw.com
+通过root@yxshyw.com访问自己的2121端口来访问127.0.0.1:22的22端口

@@ -1,0 +1,178 @@
+﻿select _rowid from table
+SELECT * from `performance_schema`.events_statements_current
+show binlog events in 'binlog.000003';
+show engine innodb status;
+show global status where variable_name=binlog_cache_use binlog_cache_disk_use
+| innodb_data_file_path  ibdata1:12M;ibdata2:12M:autoextend
+
+yum localinstall mysql57-community-release-el7-8.noarch.rpm
+yum install mysql-community-server
+/var/log/mysqld.log
+
+SELECT a.mobile, a.user_name, a.org_id,b.position_id, c.position_name, d.org_name 
+FROM `sys_user` a inner JOIN sys_user_position b ON a.user_id=b.user_id 
+INNER JOIN sys_position c ON b.position_id=c.position_id 
+INNER JOIN sys_org d ON a.org_id=d.org_id
+WHERE a.user_id in (SELECT user_id FROM sys_user_position GROUP BY user_id HAVING COUNT(user_id)>1) 
+ORDER BY a.user_id;
+
+SELECT * FROM tb_notice_inst a INNER JOIN sys_map_code b ON a.notice_type=b.code_val;
+SELECT * FROM sys_user WHERE sex IS NOT NULL
+
+UPDATE sys_user SET nation=NULL;
+UPDATE sys_user SET sex=NULL;
+UPDATE sys_user SET degree=NULL;
+
+SHOW VARIABLES LIKE 'character_set_%';
+show variables like "%char%"
+show variables like '%colla%';
+show collation; 
+
+alter table sys_account MODIFY COLUMN account varchar(50) binary;
+
+UPDATE sys_user SET user_img='/img/person_img/1.png'
+
+alter table table_name alter column column_name set default 'default'
+
+SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name='shirt'
+
+ALTER TABLE shirt AUTO_INCREMENT=5;
+
+select auto_increment from information_schema.tables where table_schema='test' and table_name='user';
+
+UPDATE tb_notice_inst SET notice_content = REPLACE(notice_content, 'font-size: 16px', 'font-size: 1.6rem') WHERE notice_content LIKE '%font-size: 16px%'
+
+SELECT 
+    REPLACE(
+REQUEST,
+SUBSTRING(REQUEST,LOCATE('<DISKROOT>',REQUEST),LOCATE('</DISKROOT>', REQUEST)+11- LOCATE('<DISKROOT>',REQUEST)),
+'<DISKROOT>D:\\DSFA-SC\\WebRoot</DISKROOT>') re 
+FROM dual
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+
+alter user 'root'@'localhost' identified by '123456789';
+
+FLUSH PRIVILEGES;
+
+mysqladmin -u root password "123456"
+
+在[mysqld]下追加：
+character-set-server=utf8
+在[mysql]下追加：
+default-character-set=utf8
+lower_case_table_names=1
+
+/var/log/mysqld.log默认密码
+
+
+order by rand() LIMIT 1
+
+查询连续两列差值
+SELECT r1.drp, r2.drp, r1.drp-r2.drp,r1.rownum-r2.rownum from (
+(SELECT drp,(@rownum:=@rownum+1) rownum FROM `alarm_sys_st_pptn_r_sync`, (SELECT @rownum:=0) r
+WHERE tm='2018-05-24 17:00:00') r1,
+(SELECT drp,(@rownu:=@rownu+1) rownum FROM `alarm_sys_st_pptn_r_sync`, (SELECT @rownu:=1) r
+WHERE tm='2018-05-24 17:00:00') r2)
+WHERE r1.rownum=r2.rownum
+
+SELECT * FROM articles
+WHERE MATCH (title,body)
+AGAINST ('database' IN NATURAL LANGUAGE MODE);
+
+UPDATE mysite_blog a
+INNER JOIN (select id from mysite_blog) c using(id)
+set a.id=if(c.id=4, 1, a.id)
+
+alter table kk alter/change/modify column kk
+
+ALTER TABLE `mysite_blog` ENGINE=MyISAM;
+REPAIR TABLE `table_name` 修复表
+OPTIMIZE TABLE `table_name` 优化表 
+ALTER TABLE zabbix.history ENGINE=INNODB  innodb整理碎片
+
+ALTER TABLE `mysite_blog` ADD KEY (name(7));前缀索引
+
+select count(distinct col1)/count(*), count(distinct col2)/count(*) from table   值越大选择性更高，作为索引的第一列
+
+SELECT a.TABLE_SCHEMA, a.TABLE_NAME, a.COLUMN_NAME, 
+a.INDEX_NAME AS 'index1', b.INDEX_NAME AS 'index2'
+FROM information_schema.STATISTICS a 
+JOIN information_schema.STATISTICS b 
+ON a.TABLE_SCHEMA = b.TABLE_SCHEMA    
+AND a.TABLE_NAME = b.TABLE_NAME 
+AND a.SEQ_IN_INDEX = b.SEQ_IN_INDEX   
+AND a.COLUMN_NAME = b.COLUMN_NAME 
+WHERE a.SEQ_IN_INDEX = 1 AND a.INDEX_NAME <> b.INDEX_NAME   查询冗余或重复索引
+
+update t1 set last=NOW() where id=1 and @now:=NOW()
+ 
+explain extend
+show warnings
+在关联顺序中的第二个表的相应列上建索引
+
+show global status where variable_name in('com_select','com_insert','com_delete','com_update');
+show variables like '%_io_threads'
+
+SELECT * FROM alarm_sys_st_pptn_r_sync
+INNER JOIN (SELECT id from alarm_sys_st_pptn_r_sync LIMIT 1744130,5) a USING(id);延迟关联
+
+CREATE TABLE par2(
+t date)
+PARTITION BY RANGE COLUMNS(t)(
+PARTITION p0 VALUES LESS THAN('2018-10-17'),
+PARTITION p1 VALUES LESS THAN(MAXVALUE)
+)
+ALTER TABLE `par2` PARTITION BY RANGE COLUMNS(`t`) (
+PARTITION `p0` VALUES less than ('2018-10-17') , 
+PARTITION `p1` VALUES less than ('2018-10-30'), 
+PARTITION `p2` VALUES less than (MAXVALUE)) ;
+哈希分区 hash(id / 1000000)  哈希连接
+
+SELECT * FROM alarm_sys_basic_attribute where id > any/all (SELECT id FROM `alarm_sys_basic_attribute`) ;
+
+select DATE_FORMAT(@i:=date_sub(@i,INTERVAL 1 MONTH),'%Y%m')
+  from tb_article, (SELECT @i:=date_add(CURRENT_DATE, INTERVAL 1 MONTH)) r
+ where date_sub(CURRENT_DATE,INTERVAL 3 MONTH) < @i
+ 
+select a.d,if(b.cnt, b.cnt, 0) from
+(select DATE_FORMAT(@i:=date_sub(@i,INTERVAL 1 MONTH),'%Y%m') d
+  from alarm_sys_district, (SELECT @i:=date_add(CURRENT_DATE, INTERVAL 1 MONTH)) r
+  where date_sub(CURRENT_DATE,INTERVAL 9 MONTH) < @i) a
+LEFT JOIN
+(SELECT DATE_FORMAT(gmt_create, '%Y%m') d, COUNT(1) cnt FROM alarm_sys_district
+ GROUP BY DATE_FORMAT(gmt_create, '%Y%m')) b
+ON a.d=b.d   连续时间补0
+
+SELECT T2.id, T2.name 
+FROM ( 
+    SELECT 
+        @r AS _id, 
+        (SELECT @r := parent_id FROM alarm_sys_district WHERE id = _id) AS parent_id, 
+        @l := @l + 1 AS lvl 
+    FROM 
+        (SELECT @r := 540124, @l := 0) vars, 
+        alarm_sys_district h 
+    WHERE @r <> 0) T1 
+JOIN alarm_sys_district T2 
+ON T1._id = T2.id 
+ORDER BY T1.lvl DESC;  递归查询
+
+SELECT T2.id, T1._id, T2.name, T1.lvl
+FROM ( 
+    SELECT 
+        @r AS _id, 
+        (SELECT @r := GROUP_CONCAT(id) FROM alarm_sys_district WHERE FIND_IN_SET(parent_id,_id)>0) AS id, 
+        @l := @l + 1 AS lvl 
+    FROM 
+        (SELECT @r := 540100, @l := 0) vars, 
+        alarm_sys_district h 
+    WHERE @r <> 0) T1 
+JOIN alarm_sys_district T2 
+ON FIND_IN_SET(T2.id, T1._id)>0
+ORDER BY T1.lvl;  递归向下查询
+
+select id from `dynamic` t1 join (select rand() * (select max(id) from `dynamic`) as nid) 
+t2 on t1.id > t2.nid limit 1000;   order by rand()
+
+prepare statement select id from t;

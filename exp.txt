@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK
+
+exp aiddm/\"aIddm14$\"@127.0.0.1:1521/db11g compress=n buffer=1024000 file=./db.dmp tables=%

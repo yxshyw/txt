@@ -1,0 +1,16 @@
+#!/bin/bash
+ 
+tm=$(mysql -uroot -pAliyung9b823ng*# -s -e "SELECT MAX(tm) FROM alarm_sys.alarm_sys_st_river_r_sync;")
+tm2=$(mysql -uroot -pAliyung9b823ng*# -s -e "SELECT MAX(tm) FROM alarm_sys.alarm_sys_st_pptn_r_sync;")
+last_tm=$(mysql -uroot -pAliyung9b823ng*# -s -e "SELECT MAX(insert_time) FROM alarm_sys.alarm_sys_st_river_r_sync;")
+last_tm2=$(mysql -uroot -pAliyung9b823ng*# -s -e "SELECT MAX(insert_time) FROM alarm_sys.alarm_sys_st_pptn_r_sync;")
+cur_tm=$(date "+%Y-%m-%d %H:%M:%S")
+t=$(($(date +%s -d "$cur_tm") - $(date +%s -d "$tm")))
+t2=$(($(date +%s -d "$cur_tm") - $(date +%s -d "$tm")))
+if [ $(($t/60/60/24)) -ge 1 -o $(($t2/60/60/24)) -ge 1 ];then
+    echo "river:$last_tm" >> mail.txt
+    echo "pptn:$last_tm2" >> mail.txt
+    /usr/local/bin/curl -s --url "smtps://smtp.qq.com" --mail-from "2125475605@qq.com" --mail-rcpt "515443051@qq.com" --upload-file mail.txt --user "2125475605@qq.com:hrrwalnioqxadagi"
+    sed -i '$d' mail.txt
+    sed -i '$d' mail.txt
+fi

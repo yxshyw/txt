@@ -1,0 +1,29 @@
+curl -i -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MDk3NjczNDcsInN1YiI6Iui-ueaXul_pmL_ph4wiLCJ1c2VySWQiOiI0YWU4ZmFmZjc5MTM0Njk2ODhjNDZiY2E4MTRhOTY1ZSIsInJvbGUiOiJ1c2VyIn0.BGo2SG3u7Su0ORs8jW02bKUy-QQoz4q5KiERlrDu0dQ
+Content-Type: application/json" http://219.151.45.11:8088/api/meetings/16ce90f1d19742a6af0b77b8eadbcb7a | python -m json.tool
+
+
+
+curl -i -X POST -H "Content-Type: application/json" -d '{"loginType":"2","loginToken":"string","userID":"niz","password":"1qaz2wsx","mobile":"string","verifyCode":"string","cid":""}' http://219.151.45.11:8088/api/login | python -m json.tool
+
+
+
+curl -i -X POST -H "Content-Type: application/json" -d '{
+	"loginType": "2",
+	"loginToken": "string",
+	"userID": "niz",
+	"password": "1qaz2wsx",
+	"mobile": "string",
+	"verifyCode": "string",
+	"cid": ""
+}' http://219.151.45.11:8088/api/login       |      python -m json.tool
+
+
+
+{"errorCode":"1","errorMessage":"查询会议详情成功","data":{"id":"16ce90f1d19742a6af0b77b8eadbcb7a","allow_mobile_connect":1,"allow_pc_connect":0,"allow_telephone_connect":0,"created_by":"4ae8faff7913469688c46bca814a965e","is_need_signin":0,"meeting_status":"3","meeting_type":"1","password":"","updated_time":"2017-11-02 12:11:10","allow_apply_by_org_agent":0,"allow_apply_join_before_start":0,"initiator":"4ae8faff7913469688c46bca814a965e","name":"1247","subject":"","is_need_send_notice":1,"created_time":"2017-11-02 12:47:10","is_draft":0,"created_name":"边旺_阿里","initiator_name":"边旺_阿里","is_draft_saved":0,"serial_no":"t6vw","is_created_from_oa":0,"is_broadcast_mode":0,"main_content":null,"requirements":null,"registration_time":null,"is_video":"1","meetingSchedule":[],"meetingAgenda":[],"memberGroup":[],"meetingTopic":[],"meetingMaterials":[],"meetingMeetingRoom":[],"meetingNotice":[],"meetingAudioRecord":[]}}
+
+
+eval(s)   ast.literal_eval(s)
+
+
+curl -i -X GET -H "Authorization:eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTE1OTUzODAsInN1YiI6ImNzIiwidXNlcklkIjoiOTM5MTUxZThiNDUyNDM2MzliMmE2ZGY2YzY0ZjZlNTYiLCJyb2xlIjoiMTExMTExMTExLOWTh-WViuWViuWViuWVijExMTEs5byA5Y-R6YOo6IGM5ZGYMSznrqHnkIbop5LoibIxLOW8gOWPkemDqOe7j-eQhizph43kuK3kuYvph40s5Y-u5Y-u5b2T5b2TIn0.cdHjU6CEOYlS7pKEGecK8hCkcT0mKM8cPNT_nWfz95k
+Content-Type:application/json" http://39.108.100.112/api/ips?page=1&ip=&mac=&pageSize=5

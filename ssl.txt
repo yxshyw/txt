@@ -1,0 +1,19 @@
+openssl genrsa -des3 -out mycert.key 1024 #创建私钥
+openssl req -new -key mycert.key -out mycert.csr #创建csr证书
+openssl rsa -in mycert.key -out mycert_nopass.key #去除密码
+openssl x509 -req -days 365 -in mycert.csr -signkey mycert_nopass.key -out mycert.crt #生成crt证书
+
+```
+私钥去除密码(passphrase)
+foo.pem
+-----BEGIN ENCRYPTED PRIVATE KEY-----
+...
+-----END ENCRYPTED PRIVATE KEY-----
+
+foo_noencrypted.pem
+-----BEGIN RSA PRIVATE KEY-----
+...
+-----END RSA PRIVATE KEY-----
+
+openssl rsa -in foo.pem -out foo_noencrypted.pem
+```

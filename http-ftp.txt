@@ -1,0 +1,2 @@
+SimpleHTTPServer   python3 -m http.server 8000     http
+pyftpdlib          python3 -m pyftpdlib -p 2121    ftp

@@ -1,0 +1,8 @@
+set ts=4
+set sw=4
+set expandtab     tab转空格
+set noexpandtab   
+set nu            行号
+set nonu
+set ic            不区分大小写ignorecase
+set noic

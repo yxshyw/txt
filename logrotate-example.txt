@@ -1,0 +1,11 @@
+/root/b.log
+{
+    rotate 5
+    daily
+    compress
+    copytruncate
+    missingok
+    maxsize 5K
+    dateext
+    dateformat -%Y%m%d.%s
+}

@@ -1,0 +1,170 @@
+select listagg(name, ',') within group( order by name) as name from user;
+SELECT username,PROFILE FROM dba_users;
+SELECT * FROM dba_profiles s WHERE s.profile='DEFAULT' AND resource_name='PASSWORD_LIFE_TIME';
+
+ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+
+第一步：登陆 
+root登陆之后切换到oracle用户上，输入 
+su - oracle
+
+第二步：连接 
+在oracle用户下，输入 
+sqlplus /nolog
+
+第三步：使用管理员权限 
+输入 
+connect / as sysdba
+
+第四步：启动/关闭服务 
+输入 
+startup/shutdown
+
+shutdown的参数 
+Normal 需要等待所有的用户断开连接 
+Immediate 等待用户完成当前的语句 
+Transactional 等待用户完成当前的事务 
+Abort 不做任何等待，直接关闭数据库 
+normal需要在所有连接用户断开后才执行关闭数据库任务，所以有的时候看起来好象命令没有运行一样！在执行这个命令后不允许新的连接 
+immediate在用户执行完正在执行的语句后就断开用户连接，并不允许新用户连接。 
+transactional 在拥护执行完当前事物后断开连接，并不允许新的用户连接数据库。 
+abort 执行强行断开连接并直接关闭数据库。
+
+
+第五步：如果是启动服务，要开启监听 
+退出sqlplus模式，输入 
+lsnrctl start
+
+select * from DBA_DIRECTORIES;
+grant read,write on directory DATA_PUMP_DIR to channelview;
+$ORACLE_HOME/bin/impdp chlview/Aliyunchlview@127.0.0.1/xe DIRECTORY=DATA_PUMP_DIR DUMPFILE=CHLSYS.dmp remap_schema=chlview:chlview
+
+/u01/app/oracle/product/12.1.0/xe/bin/exp system/oracle@127.0.0.1:1521/xe file=./xe.dmp full=y
+
+select * from(
+select rownum r, a.* from(
+select t.insert_time,t.create_time from tb_alarm_obj t order by t.insert_time desc) a
+where rownum<=40*10)
+where r>10*(40-1)
+
+select dbtimezone from dual;
+select sessiontimezone from dual;
+ALTER DATABASE SET TIME_ZONE='+08:00';
+
+create tablespace dev datafile '/u01/app/oracle/oradata/xe/dev01.dbf' size 8192M autoextend off;
+create tablespace dev datafile '/u01/app/oracle/oradata/xe/dev01.dbf' size 512M autoextend on next 1M maxsize unlimited;
+alter tablespace dev add datafile '/u01/app/oracle/oradata/xe/dev02.dbf' size 512M autoextend on next 1M maxsize unlimited;
+alter database datafile '/u01/app/oracle/oradata/XE/APP1.dbf' offline drop;  
+
+create user cloudmeeting
+  identified by Aliyuncloudmeeting
+  default tablespace DEV
+  temporary tablespace TEMP
+  profile DEFAULT;
+  
+select * from user_role_privs; 
+select * from session_privs;
+select * from dba_tab_privs;
+select * from all_tab_privs;
+select * from user_tab_privs;
+  
+alter user chlsys identified by Aliyunchlsys
+
+grant connect,resource to cloudmeeting;
+alter user cloudmeeting default tablespace DEV;
+grant unlimited tablespace to cloudmeeting;
+revoke unlimited tablespace from cloudmeeting;
+alter user cloudmeeting quota unlimited on DEV;
+
+SELECT * FROM dba_profiles WHERE profile='DEFAULT' AND resource_name='PASSWORD_LIFE_TIME';
+ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED ;
+
+select file#,name,status,enabled from v$datafile;
+drop user test cascade;
+drop tablespace LYK including contents and datafiles cascade constraint;
+
+select tablespace_name,file_name from dba_data_files;
+
+create table test_0926
+(
+  test_id number not null,
+  test_month varchar2(4) not null
+)
+partition by list(test_month)
+(
+ partition p01 values('01'),
+ partition p02 values('02'),
+ partition p03 values('03'),
+ partition p04 values('04'),
+ partition p05 values('05'),
+ partition p06 values('06'),
+ partition p07 values('07'),
+ partition p08 values('08'),
+ partition p09 values('09'),
+ partition p10 values('10'),
+ partition p11 values('11'),
+ partition p12 values('12')
+);
+
+decode(value, search, result, default)
+
+SELECT table_name,
+         ROUND ( (blocks * 8), 2) "高水位空间 k",
+         ROUND ( (num_rows * avg_row_len / 1024), 2) "真实使用空间 k",
+         ROUND ( (blocks * 10 / 100) * 8, 2) "预留空间(pctfree) k",
+         ROUND (
+            (  blocks * 8
+             - (num_rows * avg_row_len / 1024)
+             - blocks * 8 * 10 / 100),
+            2)
+            "浪费空间 k"
+    FROM user_tables
+   WHERE temporary = 'N'
+ORDER BY 5 DESC;
+
+call dbms_stats.gather_schema_stats(ownname => 'CLOUDMEETING');
+call dbms_stats.gather_table_stats('FDL','b002_fetch_citys',cascade => true);
+analyze table my_table compute statistics;  
+
+SQL> alter table t1 enable row movement; --打开行移动
+表已更改。 
+
+SQL> alter table t1 shrink space cascade; --压缩表及相关数据段并下调HWM
+
+SQL> alter table t1 shrink space compact; --只压缩不下调HWM
+
+SQL> alter table t1 shrink space ; --下调HWM
+
+SQL> alter table t1 disable row movement; --关闭行移动
+
+create public database link CRMIBA_TEST
+  connect to crm20_ins identified  by QWer123#$
+  using '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=135.64.129.160)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=hss)))';
+  
+  rebuild online;
+  update index;
+  
+select table_name, t.num_rows, t.last_analyzed  from tabs t;  所有表信息
+
+update D012_Detr_Data t2 set t2.issue_office=
+(
+select substr(t.received_str,regexp_instr(t.received_str, '\+')+1,6) from 
+D011_DETR_FETCH_DATA t where
+t.detr_plan_id=t2.detr_plan_id
+) where t2.detr_plan_id in
+(select t.detr_plan_id from 
+D011_DETR_FETCH_DATA t, D012_Detr_Data t2 where
+t.detr_plan_id=t2.detr_plan_id and t2.flt_date=trunc(sysdate-4) and t2.issue_office like '1%' and t.cmd like '%H' and regexp_like(substr(t.received_str,regexp_instr(t.received_str, '\+')+1,6), '\w{3}\d{3}'));
+
+select a.daylist,nvl(b.cnt,0)
+  from (select to_char(to_date(to_char(sysdate-9,'yyyymmdd'), 'yyyyMMdd') + rownum - 1,
+                       'yyyyMMdd') as daylist
+          from dual
+        connect by rownum <=
+                   trunc(to_date(to_char(sysdate,'yyyymmdd'), 'yyyyMMdd') -
+                         to_date(to_char(sysdate-9,'yyyymmdd'), 'yyyyMMdd')) + 1) a
+  left join (select substr(t.pcsj, 1, 8) d, count(t.pcsj) cnt
+               from cdga_jy_kkpc_cl t
+              group by substr(t.pcsj, 1, 8)) b
+    on a.daylist = b.d
+ order by a.daylist   连续时间补0

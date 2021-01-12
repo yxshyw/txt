@@ -1,0 +1,20 @@
+setenforce 0
+sed -ri 's#^(SELINUX=).*#\1disabled#g' /etc/selinux/config
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+route add default gw 192.168.40.128
+route -n
+
+
+
+ifconfig ens33:0 192.168.40.134 netmask 0.0.0.0 broadcast 192.168.40.134 up
+echo 1 > /proc/sys/net/ipv4/ip_forward
+ipvsadm -A -t 192.168.40.134:81 -s wlc
+ipvsadm -a -t 192.168.40.134:81 -r 192.168.40.129:81 -g
+ipvsadm -a -t 192.168.40.134:81 -r 192.168.40.130:81 -g
+
+
+ifconfig lo:0 192.168.40.134 netmask 0.0.0.0 broadcast 192.168.40.134 up
+route add -host 192.168.40.134 dev lo:0
+
+ipvsadm -Ln

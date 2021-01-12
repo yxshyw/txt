@@ -1,0 +1,1 @@
+http://localhost:9200/book/novel/_mappings  创建结构化数据

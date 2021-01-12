@@ -1,0 +1,13 @@
+firewall-offline-cmd
+firewall-cmd --list-all
+firewall-cmd --set-default-zone=drop
+
+firewall-cmd --permanent --add-port=22/tcp
+firewall-cmd --permanent --remove-port=22/tcp
+
+firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.168.2.2" accept'
+firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.168.2.2" drop'
+
+firewall-cmd --permanent --list-rich-rules
+
+firewall-cmd --permanent --add-service=ssh

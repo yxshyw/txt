@@ -1,0 +1,2 @@
+=COUNTIF(E:E,E2)
+=IF(COUNTIF(E:E,E2)>1,"1","")

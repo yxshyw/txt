@@ -1,0 +1,1 @@
+* * * * * REMAIN=60 INC=1; flock -w0 /tmp/flockfile -c "until [[ $REMAIN -le 0 ]] ; do bash /etc/a.sh; sleep $INC; REMAIN=$(($REMAIN - $INC)); done"

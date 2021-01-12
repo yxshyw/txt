@@ -1,0 +1,79 @@
+一、netstat -ano 
+用来查看端口占用情况
+二、查看指定端口的占用情况
+C:\>netstat -aon|findstr "9050"
+三、查看PID对应的进程
+C:\>tasklist|findstr "2016"
+四、结束该进程
+C:\>taskkill /f /t /im tor.exe
+taskkill /PID 2016
+start /b java -jar kkk.jar  windows后台启动
+
+!$  上一个命令的最右半句
+date +%Y%m%d%H%M%S
+export HISTTIMEFORMAT="%F %T  "  历史命令显示时间
+ps -ef | grep java | head -n 1 | awk '{print$2}'
+ps -eo command,lstart|grep ncss-send-message
+jar -cvf report-intf.war .
+jar -xvf report-intf.war
+
+:10,50s#abc#def#g（如文件内有#，可用/替换,:%s/abc/def/g）
+sed -i '1,$s/113.62.127.253:[0-9]\{4\}/113.62.127.253:1234/g' index.js
+netstat -anlutp|awk '{print $5":"$7}'|awk -F : '{print $4$6}'|sort|uniq -c|sort -n|grep 221
+ps -aux|awk '{sum+=$4} END {print "Sum = ", sum}'
+find .|xargs grep -r 'k'
+
+set ts=4
+set bs=4
+set key=
+
+$# 传递到脚本的参数个数
+$* 以一个单字符串显示所有向脚本传递的参数
+$$    脚本运行的当前进程ID号
+$! 后台运行的最后一个进程的ID号
+$@ 与$*相同，但是使用时加引号，并在引号中返回每个参数。
+$- 显示Shell使用的当前选项，与set命令功能相同。
+$? 显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。
+
+ll -d `find /home/clique/ -mtime -1|grep old-dicyun-clique`
+
+/usr/local/bin/curl --verbose -s --url "smtps://smtp.qq.com" --mail-from "2125475605@qq.com" --mail-rcpt "515443051@qq.com" --upload-file mail.txt --user "2125475605@qq.com:hrrwalnioqxadagi"
+
+rsync -avP clique@www.dicyun.win:/home/clique/test/ kk/
+rsync -avzuP
+
+crontab文件锁
+flock -xn /tmp/run.lock -c '/root/s.sh'
+
+nmap -sT -Pn 219.151.45.17  -p8905-8907
+nmap -sU -Pn 219.151.45.17  -p8905-8907
+
+yum autoremove
+yum history list/undo number
+yum install epel-release
+
+更改时区  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more
+
+查看tcp连接状态计数
+netstat -n |awk '/^tcp/{++S[$NF]}END{for (i in S ) print i,S[i]}'
+
+sed递归替换
+sed -i 's/listen/listen_new/g'  `grep -rl listen  ./h/*`
+
+sed \1和非
+sed 's/^[^#]\(.*\)172.20.66.233/\1172.26.2.96/g' es.sh 
+
+时间算术
+date -d "-1 year -1 month" +"%Y%m%d"
+
+redis管道
+(echo -en "info\r\n";sleep 1)|nc -w 1 172.20.66.225 6379
+
+非交互式
+cat > txt <<EOF
+tee txt <<EOF
+
+分组sum
+awk -F ':' '{s[$1]+=$2}END{for (i in s) print i,s[i]}'

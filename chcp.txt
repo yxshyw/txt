@@ -1,0 +1,2 @@
+chcp 936 GBK编码
+chcp 65001 UTF8编码

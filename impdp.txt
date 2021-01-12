@@ -1,0 +1,3 @@
+#!/bin/bash
+impdp system/\"Tydic_2017\!@#\"@127.0.0.1:1521/XE DIRECTORY=DATA_PUMP_DIR DUMPFILE=CHLSYS.dmp remap_schema=chlsys:chlsys
+impdp system/\"Tydic_2017\!@#\"@127.0.0.1:1521/XE DIRECTORY=DATA_PUMP_DIR DUMPFILE=chlview.dmp remap_schema=chlview:chlview

@@ -1,0 +1,4 @@
+docker run -d -p -v
+docker exec -it
+docker container prune
+docker system prune -a
